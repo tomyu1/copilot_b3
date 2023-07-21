@@ -1,0 +1,23 @@
+contryCode,contryDesc,holidayDate,holidayDesc
+US,United States,2022-04-15,22 Good Friday
+US,United States,2023-04-15,23 Good Friday
+US,United States,2022-12-25,22 Christmas Day
+US,United States,2023-12-25,23 Christmas Day
+GB,United KINGDOM,2022-04-15,22 UK Good Friday
+GB,United KINGDOM,2023-10-01,23 UK Good Friday
+CN,Chinese,2022-10-01,22 Chinese National Day
+CN,Chinese,2023-10-01,23 Chinese National Day
+HK,Hong Kong,2022-10-01,22 Hong Kong National Day
+HK,Hong Kong,2023-10-01,23 Hong Kong National Day
+JP,Japan,2022-10-01,22 Japan National Day
+JP,Japan,2023-10-01,23 Japan National Day
+KR,Korea,2022-10-01,22 Korea National Day
+KR,Korea,2023-10-01,23 Korea National Day
+SG,Singapore,2022-10-01,22 Singapore National Day
+SG,Singapore,2023-10-01,23 Singapore National Day
+TW,Taiwan,2022-10-01,22 Taiwan National Day
+TW,Taiwan,2023-10-01,23 Taiwan National Day
+TH,Thailand,2022-10-01,22 Thailand National Day
+TH,Thailand,2023-10-01,23 Thailand National Day
+VN,Vietnam,2022-10-01,22 Vietnam National Day
+VN,Vietnam,2023-10-01,23 Vietnam National Day
