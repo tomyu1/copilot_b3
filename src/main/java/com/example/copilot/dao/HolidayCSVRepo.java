@@ -11,8 +11,10 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,7 +29,7 @@ public class HolidayCSVRepo implements HolidayRepo {
     @Override
     public void insert(Holiday holidays) {
         try(
-                FileWriter fileWriter = new FileWriter(this.getClass().getClassLoader().getResource(dataFilePath).getPath(),true);
+                FileWriter fileWriter = new FileWriter(ResourceUtils.getFile("classpath:"+dataFilePath).getPath(),true);
                 CSVWriter csvWriter = new CSVWriter(fileWriter, ',',
                         CSVWriter.NO_QUOTE_CHARACTER,
                         CSVWriter.NO_ESCAPE_CHARACTER,
@@ -42,7 +44,7 @@ public class HolidayCSVRepo implements HolidayRepo {
     @Override
     public void overwriteAll(List<Holiday> holidays) {
         try(
-                FileWriter fileWriter = new FileWriter(this.getClass().getClassLoader().getResource(dataFilePath).getPath());
+                FileWriter fileWriter = new FileWriter("src/main/resources/holidays.csv");
                 CSVWriter csvWriter = new CSVWriter(fileWriter, ',',
                         CSVWriter.NO_QUOTE_CHARACTER,
                         CSVWriter.NO_ESCAPE_CHARACTER,
@@ -59,10 +61,9 @@ public class HolidayCSVRepo implements HolidayRepo {
     @Override
     public List<Holiday> selectAll() {
         List<Holiday> res = new ArrayList<>();
-        String path = this.getClass().getClassLoader().getResource(dataFilePath).getPath();
         try(
-                FileReader fileReader = new FileReader(path);
-                CSVReader csvReader = new CSVReader(fileReader,',','"', ICSVParser.DEFAULT_ESCAPE_CHARACTER,1);
+                FileReader fileReader = new FileReader("src/main/resources/holidays.csv");
+                CSVReader csvReader = new CSVReader(fileReader,',','"', ICSVParser.DEFAULT_ESCAPE_CHARACTER);
                  ){
 
 //            String[] header = csvReader.readNext();

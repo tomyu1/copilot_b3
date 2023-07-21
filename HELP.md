@@ -2,18 +2,55 @@
 
 ### Reference Documentation
 
-For further reference, please consider the following sections:
+### insert test CURL:
+curl --location 'localhost:8080/insert' \
+--header 'Content-Type: application/json' \
+--data '[
+{
+"countryCode": "CN",
+"countryDesc": "Chinese",
+"holidayDate": "2033-10-01",
+"holidayName": "33 Chinese national day"
+},
+{
+"countryCode": "CN",
+"countryDesc": "Chinese",
+"holidayDate": "2034-10-01",
+"holidayName": "34 Chinese national day"
+},
+{
+"countryCode": "CN",
+"countryDesc": "Chinese",
+"holidayDate": "2034-10-01",
+"holidayName": "34 Chinese national day"
+}
+]'
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.7.14/maven-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.7.14/maven-plugin/reference/html/#build-image)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/2.7.14/reference/htmlsingle/#web)
+### queryNextYear CURL:
+curl --location --request GET 'localhost:8080/queryNextYear?countryCode=CN'
 
-### Guides
+### update holiday By CountryCode And HolidayDate CURL:
+curl --location 'localhost:8080/updateByCountryCodeAndHolidayDate' --header 'Content-Type: application/json' --data '[
+    {
+        "countryCode": "CN",
+        "countryDesc": "Chinese",
+        "holidayDate": "2033-10-01",
+        "holidayDesc": "New 33 Chinese national day"
+    }
+]'
 
-The following guides illustrate how to use some features concretely:
+### remove holiday by CountryCode And HolidayDate CURL:
+curl --location 'localhost:8080/removeByCountryCodeAndHolidayDate' --header 'Content-Type: application/json' --data '{
+"countryCode": "CN",
+"countryDesc": "Chinese",
+"holidayDate": "2033-10-01",
+"holidayName": "New 33 Chinese national day"
+}
+'
 
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
+### query next latest holiday by CountryCode CURL:
+curl --location --request GET 'localhost:8080/queryNextHoliday?countryCode=CN'
+'
 
+### query specific day is holiday in which country CURL:
+curl --location --request GET 'localhost:8080/queryIsHoliday?date=2023-10-01'

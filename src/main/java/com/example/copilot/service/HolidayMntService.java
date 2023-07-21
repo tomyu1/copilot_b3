@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -32,8 +33,10 @@ public class HolidayMntService {
                   }
               }
               poList.add(input);
+               line++  ;
            }
         try{
+            poList = poList.stream().sorted((a,b) -> a.getHolidayDate().compareTo(b.getHolidayDate())).collect(Collectors.toList());
             holidayRepo.overwriteAll(poList);
         }catch (Exception e){
             log.error("fail to insert {},e :{}",poList,e);
@@ -43,22 +46,22 @@ public class HolidayMntService {
 
     public long update(List<Holiday> holidays) {
         List<Holiday> doList = new ArrayList<>();
-        int line = 0;
         List<Holiday> all = holidayRepo.selectAll();
-        for (Holiday holiday : all) {
-            for (Holiday input : holidays) {
+        for (Holiday input : holidays) {
+            for (Holiday holiday : all) {
                 if (holiday.getCountryCode().equals(input.getCountryCode()) && holiday.getHolidayDate().equals(input.getHolidayDate())){
                     try{
                         doList.add(input);
-                        line++;
                     }catch (Exception e){
                         log.error("fail to insert {},e :{}",input,e);
                     }
                 }
             }
         }
-        holidayRepo.overwriteAll(doList);
-        return line;
+        if(doList.size()>0){
+            holidayRepo.overwriteAll(doList);
+        }
+        return doList.size();
     }
 
     public long remove(Holiday input) {
@@ -67,13 +70,14 @@ public class HolidayMntService {
         List<Holiday> holidays = holidayRepo.selectAll();
         for (Holiday all : holidays) {
             if (all.getCountryCode().equals(input.getCountryCode()) && all.getHolidayDate().equals(input.getHolidayDate())){
-                poList.add(input);
                 line++;
             }else {
                 poList.add(all);
             }
         }
-        holidayRepo.overwriteAll(poList);
+        if(line>0){
+            holidayRepo.overwriteAll(poList);
+        }
         return line;
     }
 
@@ -104,6 +108,7 @@ public class HolidayMntService {
 
     public Holiday queryNextHoliday(String countryCode) throws Exception {
         List<Holiday> holidays = holidayRepo.selectAll();
+        holidays = holidays.stream().sorted((a,b) -> a.getHolidayDate().compareTo(b.getHolidayDate())).collect(Collectors.toList());
         for (Holiday holiday : holidays) {
             if (holiday.getCountryCode().equals(countryCode) && after(holiday.getHolidayDate(),new Date())){
                 return holiday;
@@ -125,8 +130,7 @@ public class HolidayMntService {
         if(result.size() == 0){
             return "Not holiday";
         }
-
-        return String.format("{} holiday in {}",date,result.stream().map(Holiday::getCountryCode).reduce((a,b) -> a + "," + b).get());
+        return String.format("%S is holiday in [%S]",date,result.stream().map(Holiday::getCountryCode).reduce((a,b) -> a + "," + b).get());
     }
 
 

@@ -27,6 +27,12 @@ public class Controller {
    // insert json data
     @PostMapping("/insert")
     public String insert(@RequestBody List<Holiday> holidays) {
+        // country code, holiday date has text
+        for (Holiday holiday : holidays) {
+            if (!StringUtils.hasText(holiday.getCountryCode()) || !StringUtils.hasText(holiday.getHolidayDate())) {
+                return "fail,invalid param";
+            }
+        }
 
         long line = holidayMntService.insert(holidays);
 
@@ -62,7 +68,7 @@ public class Controller {
         if (!StringUtils.hasText(countryCode)) {
             return null;
         }
-        Date startDate = new Date();
+        Date startDate = DateUtils.addDays(new Date(),-1);
         Date endDate = DateUtils.addYears(startDate,1);
         return holidayMntService.queryAllByTimeRanage(countryCode,  startDate,  endDate);
     }
